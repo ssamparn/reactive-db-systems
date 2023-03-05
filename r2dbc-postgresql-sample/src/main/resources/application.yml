@@ -1,1 +1,10 @@
+server:
+  port: 7070
 
+spring:
+  application:
+    name: r2dbc-postgresql-sample
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_sample
+    username: sashank
+    password: password

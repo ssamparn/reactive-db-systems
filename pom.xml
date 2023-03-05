@@ -8,9 +8,14 @@
     <artifactId>reactive-db-systems</artifactId>
     <version>1.0.0</version>
 
+    <packaging>pom</packaging>
+
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <modules>
+        <module>r2dbc-postgresql-sample</module>
+    </modules>
 </project>

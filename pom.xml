@@ -17,5 +17,6 @@
 
     <modules>
         <module>r2dbc-postgresql-sample</module>
+        <module>r2dbc-postgresql-entity-relations</module>
     </modules>
 </project>

@@ -9,7 +9,9 @@ services:
     environment:
       - POSTGRES_USER=sashank
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=r2dbc_postgresql_sample
+#      Enable required database based on the project that you are trying to build
+#      - POSTGRES_DB=r2dbc_postgresql_sample
+      - POSTGRES_DB=r2dbc_postgresql_student_course
     ports:
       - "5432:5432"
     volumes:

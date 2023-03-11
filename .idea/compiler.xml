@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="r2dbc-postgresql-entity-relations" />
         <module name="r2dbc-postgresql-sample" />
+        <module name="r2dbc-postgresql-entity-joins" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="r2dbc-postgresql-entity-joins" options="-parameters" />
       <module name="r2dbc-postgresql-entity-relations" options="-parameters" />
       <module name="r2dbc-postgresql-sample" options="-parameters" />
     </option>

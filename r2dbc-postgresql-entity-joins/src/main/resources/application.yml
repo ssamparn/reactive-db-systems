@@ -1,0 +1,14 @@
+server:
+  port: 7072
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+
+spring:
+  application:
+    name: r2dbc-postgresql-sample
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_hr_service
+    username: sashank
+    password: password

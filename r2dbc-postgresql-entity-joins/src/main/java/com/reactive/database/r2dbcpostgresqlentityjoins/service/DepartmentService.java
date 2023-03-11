@@ -6,10 +6,13 @@ import com.reactive.database.r2dbcpostgresqlentityjoins.repository.DepartmentRep
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.exception.DepartmentAlreadyExistsException;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.exception.DepartmentNotFoundException;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.CreateDepartmentRequest;
+import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.UpdateDepartmentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,17 +51,27 @@ public class DepartmentService {
                 .flatMap(this.departmentRepository::save);
     }
 
-    public Mono<Department> updateDepartment(Long id, Department department) {
+    public Mono<Department> updateDepartment(Long id, UpdateDepartmentRequest department) {
         return this.departmentRepository.findById(id)
                 .switchIfEmpty(Mono.error(new DepartmentNotFoundException(id)))
                 .doOnNext(currentDepartment -> {
-                    currentDepartment.setName(department.getName());
+                    currentDepartment.setName(department.name());
 
-                    if(department.getManager().isPresent()){
-                        currentDepartment.setManager(department.getManager().get());
+                    if(department.employee() != null) {
+                        currentDepartment.setManager(Employee.builder()
+                                .firstName(department.employee().firstName())
+                                .lastName(department.employee().lastName())
+                                .position(department.employee().position())
+                                .fullTime(department.employee().isFullTime())
+                                .build());
                     }
-
-                    currentDepartment.setEmployees(department.getEmployees());
+//
+                    currentDepartment.setEmployees(List.of(Employee.builder()
+                            .firstName("firstName")
+                            .lastName("second name")
+                            .position("CEO")
+                            .fullTime(department.employee().isFullTime())
+                            .build()));
                 })
                 .flatMap(this.departmentRepository::save);
     }

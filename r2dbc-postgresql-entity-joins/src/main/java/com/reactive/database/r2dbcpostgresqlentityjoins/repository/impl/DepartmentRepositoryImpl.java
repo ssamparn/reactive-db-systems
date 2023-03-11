@@ -132,12 +132,13 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
     }
 
     private Mono<Department> saveDepartmentEmployees(Department department) {
-        String query = "INSERT INTO department_employees(department_id, employee_id) VALUES (:id, :empId)";
+        String query = "INSERT INTO department_employees(department_id, employee_id, employee_first_name) VALUES (:id, :empId, :empFirstName)";
 
         return Flux.fromIterable(department.getEmployees())
                 .flatMap(employee -> databaseClient.sql(query)
                         .bind("id", department.getId())
                         .bind("empId", employee.getId())
+                        .bind("empFirstName", employee.getFirstName())
                         .fetch().rowsUpdated())
                 .collectList()
                 .thenReturn(department);

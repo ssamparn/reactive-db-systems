@@ -1,6 +1,10 @@
+DELETE FROM department_managers;
+DELETE FROM department_employees;
 DELETE FROM departments;
 DELETE FROM employees;
 
+ALTER SEQUENCE departments_id_seq RESTART WITH 1;
+ALTER SEQUENCE employees_id_seq RESTART WITH 1;
 
 INSERT INTO departments(name)
 VALUES ('Software Development'),

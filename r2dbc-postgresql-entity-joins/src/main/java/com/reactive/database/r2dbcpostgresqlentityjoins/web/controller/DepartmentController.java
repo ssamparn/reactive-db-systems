@@ -4,6 +4,7 @@ import com.reactive.database.r2dbcpostgresqlentityjoins.entity.Department;
 import com.reactive.database.r2dbcpostgresqlentityjoins.entity.Employee;
 import com.reactive.database.r2dbcpostgresqlentityjoins.service.DepartmentService;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.CreateDepartmentRequest;
+import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.UpdateDepartmentRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class DepartmentController {
     }
 
     @PutMapping("/departments/{departmentId}")
-    public Mono<Department> updateDepartment(@PathVariable("departmentId") Long departmentId, @RequestBody Department department) {
+    public Mono<Department> updateDepartment(@PathVariable("departmentId") Long departmentId, @RequestBody UpdateDepartmentRequest department) {
         return this.departmentService.updateDepartment(departmentId, department);
     }
 

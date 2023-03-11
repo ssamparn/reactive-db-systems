@@ -4,6 +4,7 @@ import com.reactive.database.r2dbcpostgresqlentityjoins.entity.Employee;
 import com.reactive.database.r2dbcpostgresqlentityjoins.repository.EmployeeRepository;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.exception.EmployeeNotFoundException;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.CreateEmployeeRequest;
+import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.UpdateEmployeeRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -37,23 +38,23 @@ public class EmployeeService {
                 .switchIfEmpty(Mono.error(new EmployeeNotFoundException(id)));
     }
 
-    public Mono<Employee> createEmployee(CreateEmployeeRequest request) {
+    public Mono<Employee> createEmployee(CreateEmployeeRequest employee) {
         return this.employeeRepository.save(
                 Employee.builder()
-                        .firstName(request.firstName())
-                        .lastName(request.lastName())
-                        .position(request.position())
-                        .fullTime(request.isFullTime())
+                        .firstName(employee.firstName())
+                        .lastName(employee.lastName())
+                        .position(employee.position())
+                        .fullTime(employee.isFullTime())
                         .build());
     }
 
-    public Mono<Employee> updateEmployee(Long id, Employee employee) {
+    public Mono<Employee> updateEmployee(Long id, UpdateEmployeeRequest employee) {
         return this.employeeRepository.findById(id)
                 .switchIfEmpty(Mono.error(new EmployeeNotFoundException(id)))
                 .flatMap(existingEmployee -> {
-                    existingEmployee.setFirstName(employee.getFirstName());
-                    existingEmployee.setLastName(employee.getLastName());
-                    existingEmployee.setPosition(employee.getPosition());
+                    existingEmployee.setFirstName(employee.firstName());
+                    existingEmployee.setLastName(employee.lastName());
+                    existingEmployee.setPosition(employee.position());
                     existingEmployee.setFullTime(employee.isFullTime());
                     return this.employeeRepository.save(existingEmployee);
                 });

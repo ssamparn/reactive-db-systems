@@ -3,6 +3,7 @@ package com.reactive.database.r2dbcpostgresqlentityjoins.web.controller;
 import com.reactive.database.r2dbcpostgresqlentityjoins.entity.Employee;
 import com.reactive.database.r2dbcpostgresqlentityjoins.service.EmployeeService;
 import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.CreateEmployeeRequest;
+import com.reactive.database.r2dbcpostgresqlentityjoins.web.model.UpdateEmployeeRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{employeeId}")
-    public Mono<Employee> updateEmployee(@PathVariable("employeeId") Long employeeId, Employee employee) {
+    public Mono<Employee> updateEmployee(@PathVariable("employeeId") Long employeeId, @RequestBody UpdateEmployeeRequest employee) {
         return this.employeeService.updateEmployee(employeeId, employee);
     }
 

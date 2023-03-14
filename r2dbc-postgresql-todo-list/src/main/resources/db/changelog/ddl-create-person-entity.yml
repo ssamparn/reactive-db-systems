@@ -1,7 +1,13 @@
 databaseChangeLog:
   - changeSet:
-      id: 01-create-table
+      id: create-person-table
       author: sassaman
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+          not:
+            tableExists:
+              tableName: person
       changes:
         - createTable:
             schema: public

@@ -12,10 +12,8 @@ spring:
     url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
     username: sashank
     password: password
-#  liquibase:
-#    change-log: classpath:db/changelog/changelog.yml
-#    url: jdbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
-#    user: sashank
-#    password: password
-
-
+  liquibase:
+    change-log: classpath:db/migration/db.changelog-master.yml
+    url: jdbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
+    user: sashank
+    password: password

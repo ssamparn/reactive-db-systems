@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
+    <groupId>com.reactive.database</groupId>
     <artifactId>reactive-db-systems</artifactId>
     <version>1.0.0</version>
 
@@ -19,5 +19,6 @@
         <module>r2dbc-postgresql-sample</module>
         <module>r2dbc-postgresql-entity-relations</module>
         <module>r2dbc-postgresql-entity-joins</module>
+        <module>r2dbc-postgresql-todo-list</module>
     </modules>
 </project>

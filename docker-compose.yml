@@ -12,7 +12,8 @@ services:
 #      Enable required database based on the project that you are trying to build
 #      - POSTGRES_DB=r2dbc_postgresql_sample
 #      - POSTGRES_DB=r2dbc_postgresql_student_course
-      - POSTGRES_DB=r2dbc_postgresql_hr_service
+#      - POSTGRES_DB=r2dbc_postgresql_hr_service
+      - POSTGRES_DB=r2dbc_postgresql_todo_list
     ports:
       - "5432:5432"
     volumes:

@@ -1,0 +1,21 @@
+server:
+  port: 7073
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
+
+spring:
+  application:
+    name: r2dbc-postgresql-todo-list
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
+    username: sashank
+    password: password
+#  liquibase:
+#    change-log: classpath:db/changelog/changelog.yml
+#    url: jdbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
+#    user: sashank
+#    password: password
+
+

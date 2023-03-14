@@ -7,9 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="r2dbc-postgresql-entity-relations" />
         <module name="r2dbc-postgresql-sample" />
+        <module name="r2dbc-postgresql-entity-relations" />
         <module name="r2dbc-postgresql-entity-joins" />
+        <module name="r2dbc-postgresql-todo-list" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
@@ -19,6 +20,7 @@
       <module name="r2dbc-postgresql-entity-joins" options="-parameters" />
       <module name="r2dbc-postgresql-entity-relations" options="-parameters" />
       <module name="r2dbc-postgresql-sample" options="-parameters" />
+      <module name="r2dbc-postgresql-todo-list" options="-parameters" />
     </option>
   </component>
 </project>

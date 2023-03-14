@@ -4,5 +4,6 @@
     <file url="file://$PROJECT_DIR$/r2dbc-postgresql-entity-joins/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/r2dbc-postgresql-entity-relations/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/r2dbc-postgresql-sample/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/r2dbc-postgresql-todo-list/src/main/java" charset="UTF-8" />
   </component>
 </project>

@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/ddl-create-person-entity.yml
+      file: db/changelog/ddl-create-todolist-entities.yml
   - include:
       file: db/mock/dml-insert-person.sql
+  - include:
+      file: db/mock/dml-insert-tags.sql

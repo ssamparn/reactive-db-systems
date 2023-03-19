@@ -1,6 +1,7 @@
 package com.reactive.database.r2dbcpostgresqlentityrelations.web;
 
 import com.reactive.database.r2dbcpostgresqlentityrelations.entity.Student;
+import com.reactive.database.r2dbcpostgresqlentityrelations.entity.StudentStatus;
 import com.reactive.database.r2dbcpostgresqlentityrelations.repository.CourseWorkRepository;
 import com.reactive.database.r2dbcpostgresqlentityrelations.repository.StudentRepository;
 import com.reactive.database.r2dbcpostgresqlentityrelations.web.response.GeneralResponse;
@@ -33,25 +34,30 @@ public class StudentsController {
     private final StudentRepository studentRepository;
     private final CourseWorkRepository courseWorkRepository;
 
-    @PostMapping("/student")
+    @PostMapping("/student/create")
     public Mono<ResponseEntity<Student>> addStudent(@RequestBody Student newStudent) {
-        newStudent.setRegisteredOn(System.currentTimeMillis());
-        newStudent.setStatus(1);
+        newStudent.setStatus(StudentStatus.NEW);
 
         return studentRepository.save(newStudent)
                 .map(student -> new ResponseEntity<>(student, HttpStatus.CREATED));
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping("/student/get/{studentId}")
     public Mono<ResponseEntity<Student>> getStudent(@PathVariable Long studentId) {
         return studentRepository.findById(studentId)
                 .map(student -> new ResponseEntity<>(student, HttpStatus.OK));
     }
 
-    @GetMapping(value = "/students", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    @GetMapping(value = "/students/get/all", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Student> getStudents() {
+        return studentRepository.findAll();
+    }
+
+    @GetMapping(value = "/students/get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Student> getStudents(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                      @RequestParam(value = "size", defaultValue = "10") Long limit,
                                      @RequestParam Map<String, String> filterParams) {
+        // Needs work. Pagination is not working properly with different conditions
         String status = filterParams.getOrDefault("status", null);
         String name = filterParams.getOrDefault("name", null);
         if (name != null) {
@@ -60,10 +66,10 @@ public class StudentsController {
 
         long offset = (page - 1) * limit;
 
-        return studentRepository.findAllByStatusAndName(offset, limit, status, name).delayElements(Duration.ofSeconds(2L));
+        return studentRepository.findAllByStatusAndStudentName(status, name, limit, offset);
     }
 
-    @PutMapping("/student/{studentId}")
+    @PutMapping("/student/update/{studentId}")
     public Mono<ResponseEntity<GeneralResponse<Student>>> updateStudent(@PathVariable Long studentId, @RequestBody Student newStudentData) {
         return studentRepository.findById(studentId)
                 .switchIfEmpty(Mono.error(new Exception("Student with ID " + studentId + " not found")))
@@ -91,7 +97,7 @@ public class StudentsController {
     }
 
     @Transactional
-    @DeleteMapping("/student/{studentId}")
+    @DeleteMapping("/student/delete/{studentId}")
     Mono<ResponseEntity<GeneralResponse<Student>>> deleteStudent(@PathVariable Long studentId) {
         return studentRepository.findById(studentId)
                 .switchIfEmpty(Mono.error(new Exception(String.format("Student with ID %d not found", studentId))))
@@ -121,5 +127,4 @@ public class StudentsController {
                         )
                 ));
     }
-
 }

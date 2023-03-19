@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -16,8 +19,11 @@ public class Student {
 
     @Id
     private Long studentId;
-    private String studentName;
-    private Long registeredOn;
-    private Integer status;
 
+    private String studentName;
+
+    @CreatedDate
+    private LocalDateTime registeredOn;
+
+    private StudentStatus status;
 }

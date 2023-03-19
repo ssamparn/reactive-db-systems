@@ -8,9 +8,9 @@ CREATE TABLE IF NOT EXISTS course (
 
 CREATE TABLE IF NOT EXISTS student (
     student_id INT GENERATED ALWAYS AS IDENTITY,
-    student_name VARCHAR(11) NOT NULL,
-    registered_on INT NOT NULL,
-    status INT NOT NULL,
+    student_name VARCHAR(255) NOT NULL,
+    registered_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    status VARCHAR(11) NOT NULL,
     PRIMARY KEY (student_id)
 );
 

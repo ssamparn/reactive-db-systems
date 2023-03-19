@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS course_work (
     course_work_id INT GENERATED ALWAYS AS IDENTITY,
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    marks INT NOT NULL,
+    marks INT,
     PRIMARY KEY (course_work_id),
     CONSTRAINT const_on_course_id FOREIGN KEY (course_id) REFERENCES course(course_id),
     CONSTRAINT const_on_student_id FOREIGN KEY (student_id) REFERENCES student(student_id)

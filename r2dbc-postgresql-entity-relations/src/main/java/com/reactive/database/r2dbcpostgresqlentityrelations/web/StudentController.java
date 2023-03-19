@@ -4,8 +4,10 @@ import com.reactive.database.r2dbcpostgresqlentityrelations.entity.Student;
 import com.reactive.database.r2dbcpostgresqlentityrelations.entity.StudentStatus;
 import com.reactive.database.r2dbcpostgresqlentityrelations.repository.CourseWorkRepository;
 import com.reactive.database.r2dbcpostgresqlentityrelations.repository.StudentRepository;
+import com.reactive.database.r2dbcpostgresqlentityrelations.service.StudentService;
 import com.reactive.database.r2dbcpostgresqlentityrelations.web.response.GeneralResponse;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,31 +27,32 @@ import reactor.core.publisher.Mono;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
 public class StudentController {
 
+    private final StudentService studentService;
     private final StudentRepository studentRepository;
     private final CourseWorkRepository courseWorkRepository;
 
     @PostMapping("/student/create")
     public Mono<ResponseEntity<Student>> addStudent(@RequestBody Student newStudent) {
         newStudent.setStatus(StudentStatus.NEW);
-
-        return studentRepository.save(newStudent)
+        return studentService.saveStudent(newStudent)
                 .map(student -> new ResponseEntity<>(student, HttpStatus.CREATED));
     }
 
     @GetMapping("/student/get/{studentId}")
     public Mono<ResponseEntity<Student>> getStudent(@PathVariable Long studentId) {
-        return studentRepository.findById(studentId)
+        return studentService.getStudentById(studentId)
                 .map(student -> new ResponseEntity<>(student, HttpStatus.OK));
     }
 
     @GetMapping(value = "/students/get/all", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Student> getStudents() {
-        return studentRepository.findAll();
+        return studentService.getAllStudents();
     }
 
     @GetMapping(value = "/students/get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -70,11 +73,11 @@ public class StudentController {
 
     @PutMapping("/student/update/{studentId}")
     public Mono<ResponseEntity<GeneralResponse<Student>>> updateStudent(@PathVariable Long studentId, @RequestBody Student newStudentData) {
-        return studentRepository.findById(studentId)
+        return studentService.getStudentById(studentId)
                 .switchIfEmpty(Mono.error(new Exception("Student with ID " + studentId + " not found")))
                 .flatMap(foundStudent -> {
                     foundStudent.setStudentName(newStudentData.getStudentName());
-                    return studentRepository.save(foundStudent);
+                    return studentService.saveStudent(foundStudent);
                 }).map(updatedStudent -> {
                     HashMap<String, Student> data = new HashMap<>();
                     data.put("student", updatedStudent);
@@ -98,10 +101,10 @@ public class StudentController {
     @Transactional
     @DeleteMapping("/student/delete/{studentId}")
     Mono<ResponseEntity<GeneralResponse<Student>>> deleteStudent(@PathVariable Long studentId) {
-        return studentRepository.findById(studentId)
+        return studentService.getStudentById(studentId)
                 .switchIfEmpty(Mono.error(new Exception(String.format("Student with ID %d not found", studentId))))
                 .flatMap(foundStudent -> courseWorkRepository.deleteByStudentId(studentId)
-                        .then(studentRepository.deleteById(studentId))
+                        .then(studentService.deleteStudentById(studentId))
                         .thenReturn(foundStudent))
                 .map(deletedStudent -> {
                     HashMap<String, Student> data = new HashMap<>();

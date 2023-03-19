@@ -1,5 +1,7 @@
 package com.reactive.database.r2dbcpostgresqlentityrelations.entity;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +18,8 @@ public class Course {
 
     @Id
     private Long courseId;
+
+    @NotBlank
+    @Size(max=20)
     private String courseName;
 }

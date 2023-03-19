@@ -10,6 +10,7 @@ import com.reactive.database.r2dbcpostgresqltodolist.exception.ItemNotFoundExcep
 import com.reactive.database.r2dbcpostgresqltodolist.exception.UnexpectedItemVersionException;
 import com.reactive.database.r2dbcpostgresqltodolist.mapper.TagMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +21,17 @@ import reactor.util.function.Tuple2;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static com.reactive.database.r2dbcpostgresqltodolist.db.entity.NotificationTopic.ITEM_DELETED;
+import static com.reactive.database.r2dbcpostgresqltodolist.db.entity.NotificationTopic.ITEM_SAVED;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ItemService {
 
     private static final Sort DEFAULT_SORT = Sort.by(Sort.Order.by("lastModifiedDate"));
+
+    private final NotificationService notificationService;
 
     private final ItemRepository itemRepository;
     private final PersonRepository personRepository;
@@ -130,12 +137,12 @@ public class ItemService {
     }
 
     public Flux<Item> listenToSavedItems() {
-        // to be implemented
-        return Flux.empty();
+        return this.notificationService.listen(ITEM_SAVED, Item.class)
+                .flatMap(this::loadRelations);
     }
 
     public Flux<Long> listenToDeletedItems() {
-        // to be implemented
-        return Flux.empty();
+        return this.notificationService.listen(ITEM_DELETED, Item.class)
+                .map(Item::getId);
     }
 }

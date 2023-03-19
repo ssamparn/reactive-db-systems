@@ -3,6 +3,8 @@ package com.reactive.database.r2dbcpostgresqltodolist.web.controller;
 import com.reactive.database.r2dbcpostgresqltodolist.mapper.ItemMapper;
 import com.reactive.database.r2dbcpostgresqltodolist.service.ItemService;
 import com.reactive.database.r2dbcpostgresqltodolist.web.model.event.Event;
+import com.reactive.database.r2dbcpostgresqltodolist.web.model.event.ItemDeleted;
+import com.reactive.database.r2dbcpostgresqltodolist.web.model.event.ItemSaved;
 import com.reactive.database.r2dbcpostgresqltodolist.web.model.request.NewItemResource;
 import com.reactive.database.r2dbcpostgresqltodolist.web.model.request.UpdateItemResource;
 import com.reactive.database.r2dbcpostgresqltodolist.web.model.response.ItemResource;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE;
@@ -85,8 +89,20 @@ public class ItemController {
 
     @GetMapping("/items/events")
     public Flux<ServerSentEvent<Event>> listenToItemEvents() {
-        // to be implemented
-        return Flux.empty();
+
+        final Flux<Event> itemSavedFlux = this.itemService.listenToSavedItems()
+                .map(itemMapper::toResource)
+                .map(ItemSaved::new);
+
+        final Flux<Event> itemDeletedFlux = this.itemService.listenToDeletedItems()
+                        .map(ItemDeleted::new);
+
+        return Flux.merge(itemSavedFlux, itemDeletedFlux)
+                .map(event -> ServerSentEvent.<Event>builder()
+                        .retry(Duration.ofSeconds(4L))
+                        .event(event.getClass().getSimpleName())
+                        .data(event).build());
+
     }
 
 }

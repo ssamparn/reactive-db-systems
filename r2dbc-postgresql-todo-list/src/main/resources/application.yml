@@ -12,6 +12,10 @@ spring:
     url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
     username: sashank
     password: password
+    pool:
+      enabled: true
+      initial-size: 20
+      max-size: 30
   liquibase:
     change-log: classpath:db/migration/db.changelog-master.yml
     url: jdbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list

@@ -7,7 +7,6 @@ import lombok.Getter;
  */
 @Getter
 public enum NotificationTopic {
-
     ITEM_SAVED,
     ITEM_DELETED
 }

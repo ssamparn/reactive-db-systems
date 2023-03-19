@@ -7,6 +7,7 @@ import com.reactive.database.r2dbcpostgresqlentityrelations.repository.StudentRe
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -19,6 +20,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final CourseWorkRepository courseWorkRepository;
 
+    @Transactional
     public Mono<Student> saveStudent(Student student) {
         if (student.getStudentId() != null) {
             return Mono.error(new IllegalArgumentException("When creating a student, the studentId must be null"));
@@ -37,6 +39,7 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    @Transactional
     public Mono<Void> deleteStudentById(Long studentId) {
         return studentRepository.deleteById(studentId);
     }

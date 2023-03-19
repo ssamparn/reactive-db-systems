@@ -22,8 +22,8 @@ public class PersonService {
         return personRepository.findAll(DEFAULT_SORT);
     }
 
-    public Mono<Person> findPersonByItemId(final Long itemId) {
-        return personRepository.findById(itemId)
-                .switchIfEmpty(Mono.error(new ItemNotFoundException(itemId)));
+    public Mono<Person> findPersonByPersonId(final Long personId) {
+        return personRepository.findById(personId)
+                .switchIfEmpty(Mono.error(new ItemNotFoundException(personId)));
     }
 }

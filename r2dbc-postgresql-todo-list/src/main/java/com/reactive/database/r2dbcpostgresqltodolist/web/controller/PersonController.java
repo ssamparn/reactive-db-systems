@@ -30,9 +30,9 @@ public class PersonController {
                 .map(personMapper::toResource);
     }
 
-    @GetMapping(value = "/people/get/{itemId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<PersonResource> findById(@PathVariable("itemId") final Long itemId) {
-        return personService.findPersonByItemId(itemId)
+    @GetMapping(value = "/people/get/{personId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<PersonResource> findById(@PathVariable("personId") final Long personId) {
+        return personService.findPersonByPersonId(personId)
                 .map(personMapper::toResource);
     }
 }

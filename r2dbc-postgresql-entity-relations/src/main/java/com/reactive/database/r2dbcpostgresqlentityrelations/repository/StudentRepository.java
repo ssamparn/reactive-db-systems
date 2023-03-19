@@ -8,6 +8,9 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface StudentRepository extends ReactiveCrudRepository<Student, Long> {
+
     @Query(value = "SELECT * FROM student WHERE (status = :status OR status is null) AND (student_name LIKE :name OR student_name is null) LIMIT :limit OFFSET :offset")
     Flux<Student> findAllByStatusAndStudentName(String status, String name, Long limit, Long offset);
+
+
 }

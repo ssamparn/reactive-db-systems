@@ -22,14 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1")
-public class StudentsController {
+public class StudentController {
 
     private final StudentRepository studentRepository;
     private final CourseWorkRepository courseWorkRepository;

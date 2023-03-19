@@ -95,3 +95,97 @@ databaseChangeLog:
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: create-item-table
+      author: sassaman
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+          not:
+            tableExists:
+              tableName: item
+      changes:
+        - createTable:
+            schema: public
+            tableName: item
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 100
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: version
+                  defaultValue: 1
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(15)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(4000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: timestamp
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: assignee_id
+                  type: int
+                  constraints:
+                    foreignKeyName: fk_item_assignee_id
+                    references: person(id)
+
+  - changeSet:
+      id: create-item-tag-table
+      author: sassaman
+      preConditions:
+        - onFail: MARK_RAN
+        - onError: HALT
+          not:
+            tableExists:
+              tableName: item_tag
+      changes:
+        - createTable:
+            schema: public
+            tableName: item_tag
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  startWith: 100
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_tag_item_id
+                    references: item(id)
+              - column:
+                  name: tag_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_item_tag_tag_id
+                    references: tag(id)

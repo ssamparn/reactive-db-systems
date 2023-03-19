@@ -18,12 +18,12 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
-    public Flux<Person> findAll() {
+    public Flux<Person> findAllPersons() {
         return personRepository.findAll(DEFAULT_SORT);
     }
 
-    public Mono<Person> findById(final Long id) {
-        return personRepository.findById(id)
-                .switchIfEmpty(Mono.error(new ItemNotFoundException(id)));
+    public Mono<Person> findPersonByItemId(final Long itemId) {
+        return personRepository.findById(itemId)
+                .switchIfEmpty(Mono.error(new ItemNotFoundException(itemId)));
     }
 }

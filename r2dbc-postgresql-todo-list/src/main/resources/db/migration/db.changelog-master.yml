@@ -5,3 +5,7 @@ databaseChangeLog:
       file: db/mock/dml-insert-person.sql
   - include:
       file: db/mock/dml-insert-tags.sql
+  - include:
+      file: db/mock/dml-insert-items.sql
+  - include:
+      file: db/mock/dml-insert-item-tags.sql

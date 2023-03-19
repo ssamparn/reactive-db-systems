@@ -17,14 +17,14 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
-    public Flux<Tag> findAll() {
+    public Flux<Tag> findAllTags() {
         return tagRepository.findAll(DEFAULT_SORT);
     }
 
-    public Mono<Tag> findById(final Long id) {
+    public Mono<Tag> findTagByTagId(final Long tagId) {
 
-        return tagRepository.findById(id)
-                .switchIfEmpty(Mono.error(new TagNotFoundException(id)));
+        return tagRepository.findById(tagId)
+                .switchIfEmpty(Mono.error(new TagNotFoundException(tagId)));
     }
 
 }

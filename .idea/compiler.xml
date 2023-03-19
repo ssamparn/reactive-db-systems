@@ -7,8 +7,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="r2dbc-postgresql-sample" />
         <module name="r2dbc-postgresql-entity-relations" />
+        <module name="r2dbc-postgresql-sample" />
         <module name="r2dbc-postgresql-entity-joins" />
       </profile>
       <profile name="Annotation profile for reactive-db-systems" enabled="true">

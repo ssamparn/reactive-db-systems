@@ -1,4 +1,4 @@
-package com.reactive.database.r2dbcpostgresqltodolist.web.model;
+package com.reactive.database.r2dbcpostgresqltodolist.web.model.response;
 
 import lombok.Data;
 

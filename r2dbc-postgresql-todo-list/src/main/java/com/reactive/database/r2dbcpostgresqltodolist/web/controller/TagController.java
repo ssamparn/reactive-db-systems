@@ -24,17 +24,17 @@ public class TagController {
     private final TagService tagService;
     private final TagMapper tagMapper;
 
-    @GetMapping(value = "/tags/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<TagResource> findById(@PathVariable final Long id) {
+    @GetMapping(value = "/tags/get/{tagId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<TagResource> findById(@PathVariable("tagId") final Long tagId) {
 
-        return tagService.findById(id)
+        return tagService.findTagByTagId(tagId)
                 .map(tagMapper::toResource);
     }
 
-    @GetMapping(value = "/tags/get-all", produces = TEXT_EVENT_STREAM_VALUE)
-    public Flux<TagResource> getAll() {
+    @GetMapping(value = "/tags/get/all", produces = TEXT_EVENT_STREAM_VALUE)
+    public Flux<TagResource> getAllTags() {
 
-        return tagService.findAll()
+        return tagService.findAllTags()
                 .map(tagMapper::toResource);
     }
 }

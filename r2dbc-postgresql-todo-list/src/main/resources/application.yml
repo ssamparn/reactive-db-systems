@@ -5,19 +5,27 @@ logging:
   level:
     org.springframework.r2dbc: DEBUG
 
+database:
+  name: r2dbc_postgresql_todo_list
+  type: postgresql
+  host: localhost
+  port: 5432
+  username: sashank
+  password: password
+
 spring:
   application:
     name: r2dbc-postgresql-todo-list
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
-    username: sashank
-    password: password
+    url: r2dbc:${database.type}://${database.host}:${database.port}/${database.name}
+    username: ${database.username}
+    password: ${database.password}
     pool:
       enabled: true
       initial-size: 20
       max-size: 30
   liquibase:
     change-log: classpath:db/migration/db.changelog-master.yml
-    url: jdbc:postgresql://localhost:5432/r2dbc_postgresql_todo_list
-    user: sashank
-    password: password
+    url: jdbc:${database.type}://${database.host}:${database.port}/${database.name}
+    user: ${database.username}
+    password: ${database.password}
